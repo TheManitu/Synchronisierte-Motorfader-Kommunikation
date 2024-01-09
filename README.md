@@ -25,7 +25,7 @@ der zwischenmenschlichen Kommunikation zu erforschen, die auf einem interaktiven
 Pinboard basiert. Das Projekt strebt danach, eine Balance zwischen technischer Um-
 setzbarkeit und Benutzerfreundlichkeit zu finden. Der Fokus liegt auf der Entwicklung
 eines Prototyps, der nicht nur technisch effektiv, sondern auch einfach in der Handha-
-bung ist.[Mehr erfahren...](Pfad/zur/deiner/datei.pdf)
+bung ist.[Mehr erfahren...](Artefakte/Expose.pdf)
 
 
 
@@ -86,5 +86,5 @@ void loop() {
 
 
 
-[Architekturmodell]:https://github.com/JJJS777/Lufty/blob/main/Artefakte/Architektur-Architekturdiagramm.png
-[Aktivitätsmodell]:https://github.com/JJJS777/Lufty/blob/main/Artefakte/Architektur-Aktivitätsdiagramm.drawio.png
+[Aktivitätsmodell]:https://github.com/TheManitu/Interactive-Pinboard/blob/main/Artefakte/Architektur-Aktivitätsdiagramm.png
+[Architekturmodell]:https://github.com/TheManitu/Interactive-Pinboard/blob/main/Artefakte/Architektur-Architekturdiagramm.png
