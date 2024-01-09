@@ -15,17 +15,11 @@
 
 ## 1. Projektmotivation
 
-Dieses Projekt befasst sich mit der Entwicklung eines interaktiven Pinboards, das phy-
-sische Interaktionen zwischen Nutzern erm ̈oglicht. Die Forschungsfrage lautet: ”Wie
-kann das Prototyping des interaktiven Pinboards optimal gestaltet werden, um die
-technische Umsetzbarkeit, Benutzerfreundlichkeit und Effektivit ̈at der physischen In-
-teraktion zwischen den Nutzern zu gew ̈ahrleisten?”
-Die Motivation f ̈ur dieses Vorhaben liegt in dem Wunsch, eine alternative Form
-der zwischenmenschlichen Kommunikation zu erforschen, die auf einem interaktiven
-Pinboard basiert. Das Projekt strebt danach, eine Balance zwischen technischer Um-
-setzbarkeit und Benutzerfreundlichkeit zu finden. Der Fokus liegt auf der Entwicklung
-eines Prototyps, der nicht nur technisch effektiv, sondern auch einfach in der Handha-
-bung ist.[Mehr erfahren...](Artefakte/Expose.pdf)
+Dieses Projekt befasst sich mit der Entwicklung eines interaktiven Pinboards, das physische Interaktionen zwischen Nutzern ermöglicht. Die Forschungsfrage lautet: "Wie kann das Prototyping des interaktiven Pinboards optimal gestaltet werden, um die technische Umsetzbarkeit, Benutzerfreundlichkeit und Effektivität der physischen Interaktion zwischen den Nutzern zu gewährleisten?"
+
+Die Motivation für dieses Vorhaben liegt im Wunsch, eine alternative Form der zwischenmenschlichen Kommunikation zu erforschen, die auf einem interaktiven Pinboard basiert. Das Projekt strebt danach, eine Balance zwischen technischer Umsetzbarkeit und Benutzerfreundlichkeit zu finden. Der Fokus liegt auf der Entwicklung eines Prototyps, der nicht nur technisch effektiv, sondern auch einfach in der Handhabung ist.
+
+[Mehr erfahren...](Artefakte/Expose.pdf)
 
 
 
