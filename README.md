@@ -25,7 +25,7 @@ Unsere Motivation besteht darin, eine alternative Form der zwischenmenschlichen 
 
 
 ## 2. Benötigte Teile für den ersten Prototyp
-+ 2x ESP32 Mikrocontroller oder vergleichbar
++ 3x ESP32 Mikrocontroller oder vergleichbar
 + 1x Alps RS60N11M9 Motorfader, 5 kΩ, 0.2 W, linear
 + 1x Schiebe-Potentiometer, Stereo, 10 kΩ, linear
 + 2x Project Board (Breadboard)
