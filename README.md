@@ -126,11 +126,11 @@ void loop() {
 ```
 ## 4. Vorrausetzungen
 
-### Grundinformationen zur finalen Version
+### Rahmenbedingung zur Planung der Datenübertragung
 
 Für die finale Version des Projekts müssen die Positionen von 64 Potentiometern auf 64 Potentiometern synchronisiert sein. Die beiden ESP32-Boards befinden sich voraussichtlich in zwei verschiedenen Städten, aber in einem Raum, in dem eine WLAN-Verbindung möglich ist. Die Anforderungen an die Datenübertragung sind daher, dass die synchronisierten Potentiometer-Positionen zuverlässig und in Echtzeit zwischen den beiden ESP32-Boards übertragen werden müssen.
 
-### Übertragung der Potentiometer-Positionen
+### Warum 64 Potentiometer (8x8)?
 
 Die Auswahl von 64 Potentiometern als Anzahl der zu synchronisierenden Geräte bietet eine solide Menge an Pins für die Kommunikation zwischen den ESP32-Boards. Diese Anzahl ist aus mehreren Gründen sinnvoll:
 
