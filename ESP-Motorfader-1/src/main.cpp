@@ -4,22 +4,18 @@
 #include <WifiClientSecure.h>
  
   //WIFI Connection
-    //const char* ssid = "Manuel";
-    //const char* password = "mobilpw1";
-    const char* ssid = "moxd-lab-iot";
-    const char* password = "xyv176935";
+    const char* ssid = "YourID";
+    const char* password = "YourPW";
 
-  //MQTT Connection
-    const char* broker = "hivemq.dock.moxd.io";
+//MQTT Connection
+    const char* broker = "Your-BrokerID";
     const char* mqttUser = "";
-    const char *clientIdPrefix = "01_"; // Prefix für die Client-ID, um den ESP zu identifizieren
+    const char *clientIdPrefix = "02_"; // Prefix für die Client-ID, um den ESP zu identifizieren
 
-    //const char* broker = "mqtt.flespi.io";
-    //const char* mqttUser = "ByYAWGNkH0JlvBBVKMMwtqtSYHQaGQv7ckwWO96kYDvj5X2FxD0QRjwGObEkRZgR";
-    const char* mqttPassword = "";
+   const char* mqttPassword = "";
     const int mqtt_port= 1883;
-    const char* mqttpubTopic = "position/poti2";
-    const char* mqttsubTopic = "position/poti1";
+    const char* mqttpubTopic = "position/poti1";
+    const char* mqttsubTopic = "position/poti2";
 
  // Secure WiFi Connection
 WiFiClient espClient;
