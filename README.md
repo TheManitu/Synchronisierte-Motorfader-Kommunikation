@@ -19,7 +19,7 @@
 
 ### Synchronisierter Motorfader Projekt
 Willkommen zu meinem synchronisierten Motorfader Projekt! Diese Anwendung ermöglicht eine Form der physischen Kommunikation unter Freunden. 
-[Mehr erfahren...](Artefakte/Expose.pdf)
+
 
 
 
