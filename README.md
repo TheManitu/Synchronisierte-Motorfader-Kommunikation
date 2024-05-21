@@ -19,7 +19,7 @@
 
 ### Synchronisierter Motorfader Projekt
 Willkommen zu meinem synchronisierten Motorfader Projekt! Diese Anwendung ermöglicht eine Form der physischen Kommunikation unter Freunden. 
-[Mehr erfahren...](Artefakte/Expose.pdf)
+
 
 
 
@@ -140,7 +140,7 @@ Die Auswahl der geeigneten Methode zur Übertragung der Potentiometer-Positionen
 [Architekturmodell]:https://github.com/TheManitu/Interactive-Pinboard/blob/main/Artefakte/Architektur-Architekturdiagramm.png
 [Skizze]:https://github.com/TheManitu/Synchronisierte-Motorfader-Kommunikation/blob/main/Artefakte/Skizze.png
 [Expose]:https://github.com/TheManitu/Synchronisierte-Motorfader-Kommunikation/blob/main/Artefakte/hesse-manuel-pp-ss-2024.pdf
-[Mindmap]:https://github.com/TheManitu/Synchronisierte-Motorfader-Kommunikation/blob/main/Artefakte/hesse-manuel-themenfeldmindmap.png
+[Mindmap]:https://github.com/TheManitu/Synchronisierte-Motorfader-Kommunikation/blob/main/Artefakte/themenfeldmindmap.png
 [Logik]:https://github.com/TheManitu/Synchronisierte-Motorfader-Kommunikation/blob/main/Artefakte/Logik.png
 
 
