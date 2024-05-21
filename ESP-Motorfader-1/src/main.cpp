@@ -49,6 +49,7 @@ struct MqttMessage
 
 MqttMessage received_message; // Globale Variable zum Speichern des empfangenen Topics und der Nachricht
 
+
 void setupWifi()
 {
   // Connect to Wi-Fi
@@ -90,12 +91,38 @@ void reconnect()
   }
 }
 
-void publishPotiValue(int potiValue)
+// Globale Variable für den Durchschnitt des Potentiometerwerts
+int potiAverage = 0;
+
+// Anzahl der Messungen für den Moving Average
+const int numReadings = 10;
+int potiReadings[numReadings];  // Array zum Speichern der letzten Messwerte
+int potiIndex = 0;               // Index des aktuellen Messwerts
+
+// Funktion zum Lesen des Potentiometerwerts und Berechnen des Durchschnitts
+void readAndAveragePotentiometer() {
+    // Aktuellen Potentiometerwert lesen
+    int potival = analogRead(potPin);
+
+    // Neuen Messwert zum Array hinzufügen und den ältesten entfernen
+    potiReadings[potiIndex] = potival;
+    potiIndex = (potiIndex + 1) % numReadings;
+
+    // Moving Average berechnen
+    potiAverage = 0;
+    for (int i = 0; i < numReadings; i++) {
+        potiAverage += potiReadings[i];
+    }
+    potiAverage /= numReadings;
+}
+
+
+void publishPotiValue(int potiAverage)
 {
   // Potentiometerwert an das MQTT-Thema veröffentlichen
-  client.publish(mqttpubTopic, String(potiValue).c_str(), true);
+  client.publish(mqttpubTopic, String(potiAverage).c_str(), true);
 
-  Serial.println("Potentiometerwert veröffentlicht: " + String(potiValue));
+  Serial.println("Potentiometerwert veröffentlicht: " + String(potiAverage));
 }
 
 
@@ -104,19 +131,19 @@ int lastPublishedValue = 0;
 
 // Funktion zum Senden der aktuellen Position mit Überprüfung der Änderung
 void sendCurrentPosition() {
-    int potival = analogRead(potPin);
+    readAndAveragePotentiometer();
 
     // Überprüfen, ob der neue Wert sich um mehr als 100 von dem letzten Wert unterscheidet
-    if (abs(potival - lastPublishedValue) > 100) {
-        publishPotiValue(potival); // Veröffentlicht den neuen Wert
-        lastPublishedValue = potival; // Aktualisiert den letzten veröffentlichten Wert
+    if (abs(potiAverage - lastPublishedValue) > 200) {
+        publishPotiValue(potiAverage); // Veröffentlicht den neuen Wert
+        lastPublishedValue = potiAverage; // Aktualisiert den letzten veröffentlichten Wert
     }
 }
 
 void movetoPosition(int targetPosition) {
     static int prevPosition = 0; // Variable, um die vorherige Position zu speichern
     static int prevTargetPosition = -1; // Variable, um die vorherige Zielposition zu speichern, initialisiert mit einem Wert, der sicher nicht mit einer gültigen Zielposition übereinstimmt
-    int potival = analogRead(potPin); // Aktuelle Position des Motors ablesen
+    readAndAveragePotentiometer();
     digitalWrite(motorDown, LOW); // Stelle sicher, dass beide Richtungen des Motors zuerst ausgeschaltet sind
     digitalWrite(motorUp, LOW);
     
@@ -126,36 +153,88 @@ void movetoPosition(int targetPosition) {
         prevTargetPosition = targetPosition;
     }
 
-    if ((potival > targetPosition) && (potival > targetPosition + 100)) {
+if ((potiAverage > targetPosition) && (potiAverage > targetPosition + 3000)) {
+    // Bedingungen für potiAverage größer als 3000
+    manuell = false;
+    digitalWrite(motorDown, HIGH); // Motor in Richtung "Down" bewegen
+    delay(10); // Motor für 1 Sekunde einschalten
+    //digitalWrite(motorDown, LOW);
+} 
+else if ((potiAverage < targetPosition) && (potiAverage < targetPosition - 3000)) {
+    // Bedingungen für potiAverage kleiner als 3000
+    manuell = false;
+    digitalWrite(motorUp, HIGH); // Motor in Richtung "Up" bewegen
+    delay(10); // Motor für 1 Sekunde einschalten
+    //digitalWrite(motorUp, LOW);
+} 
+else if ((potiAverage > targetPosition) && (potiAverage > targetPosition + 2000)) {
+    // Bedingungen für potiAverage größer als 2000
+    manuell = false;
+    digitalWrite(motorDown, HIGH); // Motor in Richtung "Down" bewegen
+    delay(10); 
+    //(motorDown, LOW);
+} 
+else if ((potiAverage < targetPosition) && (potiAverage < targetPosition - 2000)) {
+    // Bedingungen für potiAverage kleiner als 2000
+    manuell = false;
+    digitalWrite(motorUp, HIGH); // Motor in Richtung "Up" bewegen
+    delay(8); 
+    //digitalWrite(motorUp, LOW);
+} 
+
+else if ((potiAverage > targetPosition) && (potiAverage > targetPosition + 1000)) {
+    // Bedingungen für potiAverage größer als 2000
+    manuell = false;
+    digitalWrite(motorDown, HIGH); // Motor in Richtung "Down" bewegen
+    delay(4); 
+    digitalWrite(motorDown, LOW);
+    delay(5);
+    //readAndAveragePotentiometer();
+} 
+else if ((potiAverage < targetPosition) && (potiAverage < targetPosition - 1000)) {
+    // Bedingungen für potiAverage kleiner als 2000
+    manuell = false;
+    digitalWrite(motorUp, HIGH); // Motor in Richtung "Up" bewegen
+    delay(4); 
+    digitalWrite(motorUp, LOW);
+    delay(5);
+    //readAndAveragePotentiometer();
+} 
+    if ((potiAverage > targetPosition) && (potiAverage > targetPosition + 200)) {
         manuell = false;
         digitalWrite(motorDown, HIGH); // Wenn die Zielposition nicht erreicht ist, fahre den Motor
-        delay(1);
+        delay(2);
         digitalWrite(motorDown, LOW);
-        //delay(1);
+        delay(5);
+        //readAndAveragePotentiometer();
     } 
-    else if ((potival < targetPosition) && (potival < targetPosition - 100)) {
+    else if ((potiAverage < targetPosition) && (potiAverage < targetPosition - 200)) {
       manuell = false;
         digitalWrite(motorUp, HIGH); // Wenn die Zielposition nicht erreicht ist, fahre den Motor an
-        delay(1);
+        delay(2);
         digitalWrite(motorUp, LOW);
-        //delay(1);
+        delay(5);
+        //readAndAveragePotentiometer();
     }
     
-    if ((potival > targetPosition - 100) && (potival < targetPosition + 100)) {
+    
+    if ((potiAverage > targetPosition - 200) && (potiAverage < targetPosition + 200)) {
         // Wenn die aktuelle Position innerhalb von +/- 50 der Zielposition liegt, stoppe den Motor
         digitalWrite(motorDown, LOW);
         digitalWrite(motorUp, LOW);
-        Serial.println("Reached target position");
-        //prev steht für Position vor dem manuellen bewegen
-        int potival = analogRead(potPin); // Speichern Sie den aktuellen Potentiometerwert, um ihn später zu überprüfen
+        //readAndAveragePotentiometer();
+        //delay(50);
         sendCurrentPosition();
         manuell = true;
     }
 }
 
 
+
+
 void callback(char *topic, byte *payload, unsigned int length)
 {
+  //delay(100);
   Serial.print("Empfangen [");
   Serial.print(topic);
   Serial.print("]: ");
@@ -176,6 +255,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
 void setup()
 {
+
   Serial.begin(115200);
   setupWifi();
 
@@ -192,19 +272,20 @@ void setup()
 
 void positionChanged() {
     int prevPosition = analogRead(potPin); 
-    // Verzögern für 500 Millisekunden
-    delay(50);
+    // Verzögern für 200 Millisekunden
+    delay(200);
 
     // Aktuelle Position erneut lesen
     int currentPosition = analogRead(potPin);
 
     // Überprüfen, ob sich die Position um mindestens 100 Einheiten geändert hat
-    if (abs(currentPosition - prevPosition) >= 100) {
+    if (abs(currentPosition - prevPosition) >= 200) {
         inBewegung= true; // Position hat sich ausreichend geändert
     } else {
         inBewegung= false; // Position hat sich nicht mehr ausreichend geändert
     }
 }
+
 
 
 void loop()
@@ -222,22 +303,23 @@ void loop()
   //client.unsubscribe(mqttsubTopic);
 
   // Potentiometerwert lesen, anzeigen und publishen
-  int potival = analogRead(potPin);
+  readAndAveragePotentiometer();
   
   
 if (manuell) {
     int prevValue = received_message.payload.toInt();
-    int potival = analogRead(potPin);
+    readAndAveragePotentiometer();
 
-    // Überprüfen, ob sich der potival um +/- 200 vom letzten Publish unterscheidet
-    if (abs(potival - prevValue) >= 200) {
+    // Überprüfen, ob sich der potiAverage um +/- 200 vom letzten Publish unterscheidet
+    if (abs(potiAverage - prevValue) >= 200) {
         // Überprüfen, ob sich die Position geändert hat
-        Serial.println("aktuelle Position:" + String(potival)); 
+        Serial.println("aktuelle Position:" + String(potiAverage)); 
           positionChanged();
           if(!inBewegung){
             // Wenn sich die Position geändert hat, veröffentliche die neue Position
-            Serial.println("In manuell-schleife: " + String(prevValue) + " + " + String(potival));
-            int potival = analogRead(potPin);
+            Serial.println("In manuell-schleife: " + String(prevValue) + " + " + String(potiAverage));
+            readAndAveragePotentiometer();
+            //delay(50);
             sendCurrentPosition();
             inBewegung= true;
             // Optional: Warten, bevor fortgefahren wird
@@ -245,28 +327,30 @@ if (manuell) {
           }
     }
 }
+
 if(!manuell){
   // Prüfen, ob eine neue Nachricht empfangen wurde
-  if(abs(potival - received_message.payload.toInt()) > 100) {
+  if(abs(potiAverage - received_message.payload.toInt()) > 200) {
     // Int-Variable des anderen Sliders
     int sliderPosition = received_message.payload.toInt();
     // Funktion um Position anzufahren
     movetoPosition(sliderPosition);
     //Serial.println("In Schleife nach movetoPosition");
   }
-  if(abs(potival - received_message.payload.toInt()) < 100){
+  if(abs(potiAverage - received_message.payload.toInt()) < 200){
     manuell= true;
   }
   // CASE: wenn nach movetoPosition erkannt wird, dass Ziel bereits erreicht wurde 
-  if (abs(potival - received_message.payload.toInt()) < 100) {
+  if (abs(potiAverage - received_message.payload.toInt()) < 200) {
         // Wenn die aktuelle Position innerhalb von +/- 50 der Zielposition liegt, stoppe den Motor
         digitalWrite(motorDown, LOW);
         digitalWrite(motorUp, LOW);
         Serial.println("Reached target position");
         //prev steht für Position vor dem manuellen bewegen
-        int potival = analogRead(potPin); // Speichern Sie den aktuellen Potentiometerwert, um ihn später zu überprüfen
+        readAndAveragePotentiometer();
         sendCurrentPosition();
         manuell = true;
+        
     }
   }
 }
